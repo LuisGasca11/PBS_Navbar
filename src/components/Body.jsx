@@ -97,11 +97,6 @@ const Body = () => {
           </a>
         </div>
 
-        <p className="text-gray-400 mt-8 text-sm max-w-2xl">
-          Únete a la legión de héroes que forjan su destino en Azeroth. 
-          <span className="text-cyan-400 font-semibold"> ¡La batalla te espera!</span>
-        </p>
-
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-cyan-400 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-cyan-400 rounded-full mt-2"></div>

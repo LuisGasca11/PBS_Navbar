@@ -159,18 +159,6 @@ const Panel = () => {
               <RotateCcw size={18} className="lg:size-5" />
               Restaurar valores por defecto
             </button>
-
-            <div className="bg-blue-900/20 border border-blue-500/30 rounded-xl p-4 lg:p-6">
-              <h3 className="text-base lg:text-lg font-semibold text-blue-300 mb-2 text-center lg:text-left">
-                Información importante
-              </h3>
-              <ul className="text-xs lg:text-sm text-blue-200 space-y-1 lg:space-y-2">
-                <li>• Los cambios se guardan automáticamente</li>
-                <li>• Las personalizaciones permanecen incluso después de cerrar sesión</li>
-                <li>• Puedes restaurar los valores por defecto en cualquier momento</li>
-                <li>• Las imágenes se guardan localmente en tu navegador</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>

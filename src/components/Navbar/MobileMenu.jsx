@@ -18,7 +18,6 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-// Componente para cada item arrastrable
 const SortableMenuItem = ({ id, children }) => {
   const {
     attributes,
@@ -62,15 +61,18 @@ const MobileMenu = ({ onClose }) => {
   const mobileMenuRef = useRef(null);
   const [activeId, setActiveId] = useState(null);
   
-  // Verificar si el usuario está logueado
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return localStorage.getItem('isLoggedIn') === 'true';
   });
 
-  // Items del menú con IDs únicos
   const [menuItems, setMenuItems] = useState(() => {
-    const saved = localStorage.getItem('mobileMenuOrder');
-    return saved ? JSON.parse(saved) : [
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      const saved = localStorage.getItem('mobileMenuOrder');
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    }
+    return [
       { id: 'game-info', label: 'Información sobre el juego', hasDropdown: true },
       { id: 'expansions', label: 'Expansiones', badge: 'NUEVO', hasDropdown: true },
       { id: 'news', label: 'Noticias', href: '#noticias', hasDropdown: false },
@@ -79,11 +81,10 @@ const MobileMenu = ({ onClose }) => {
     ];
   });
 
-  // Configurar sensores para touch y mouse
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // Pixels que debe moverse antes de activar drag
+        distance: 8, 
       },
     }),
     useSensor(KeyboardSensor, {
@@ -107,10 +108,11 @@ const MobileMenu = ({ onClose }) => {
     };
   }, []);
 
-  // Guardar orden cuando cambie
   useEffect(() => {
-    localStorage.setItem('mobileMenuOrder', JSON.stringify(menuItems));
-  }, [menuItems]);
+    if (isLoggedIn) {
+      localStorage.setItem('mobileMenuOrder', JSON.stringify(menuItems));
+    }
+  }, [menuItems, isLoggedIn]);
 
   const handleDragStart = (event) => {
     setActiveId(event.active.id);
@@ -134,7 +136,6 @@ const MobileMenu = ({ onClose }) => {
     setActiveId(null);
   };
 
-  // Resetear orden
   const resetOrder = () => {
     const defaultOrder = [
       { id: 'game-info', label: 'Información sobre el juego', hasDropdown: true },
@@ -161,6 +162,12 @@ const MobileMenu = ({ onClose }) => {
         className="fixed inset-y-0 left-0 z-50 w-full max-w-sm bg-[#2a2421] transform transition-transform duration-300 ease-in-out overflow-y-auto translate-x-0"
       >
         <div className="relative p-6 flex justify-between items-start">
+          <button
+              onClick={onClose}
+              className="absolute top-4 left-4 text-gray-400 hover:text-white bg-gray-700/50 p-2 rounded-lg z-10"
+            >
+              <X size={24} />
+            </button>
           <div className="flex flex-col items-center flex-1">
             <img
               src={navbarLogo}
@@ -173,12 +180,6 @@ const MobileMenu = ({ onClose }) => {
               className="w-40 object-contain"
             />
           </div>
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-700/50 p-2 rounded-lg"
-          >
-            <X size={24} />
-          </button>
         </div>
 
         <div className="px-6 mb-6">
